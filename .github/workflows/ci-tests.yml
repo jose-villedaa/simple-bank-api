@@ -8,7 +8,22 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: simple-bank
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,6 +33,12 @@ jobs:
         with:
           go-version: '1.22.2'
         id: go
+
+      - name: Install Golang Migration Tool
+        run: go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+
+      - name: Run DB Migrations
+        run: make migrate up
 
       - name: Test
         run: make test
