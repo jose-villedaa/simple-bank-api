@@ -33,13 +33,11 @@ jobs:
         with:
           go-version: '1.22.2'
 
-      - name: Install Golang Migration Tool
+      - name: Install golang-migrate
         run: |
-          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.1/migrate.linux-amd64.tar.gz | tar xvz
-          sudo mv migrate.linux-amd64 /usr/bin/
-          ls -al /usr/bin/migrate
-          migrate -version
-          which migrate
+            curl -L https://github.com/golang-migrate/migrate/releases/download/v4.12.2/migrate.linux-amd64.tar.gz | tar xvz
+            sudo mv migrate.linux-amd64 /usr/bin/
+            which migrate
 
       - name: Run DB Migrations
         run: make migrate up
