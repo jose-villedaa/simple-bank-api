@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Golang Migration Tool
         run: |
-            go install github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+            go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
       - name: Run DB Migrations
         run: make migrations_up
