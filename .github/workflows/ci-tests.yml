@@ -38,8 +38,7 @@ jobs:
             go install github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
       - name: Run DB Migrations
-        run: |
-            migrate -path db/migration -database "postgresql://postgres:secret@localhost:5432/simple-bank?sslmode=disable" up
+        run: make migrations_up
 
       - name: Test
         run: make test
