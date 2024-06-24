@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:16
+        image: postgres:${{ secrets.POSTGRES_VERSION }}
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: secret
-          POSTGRES_DB: simple_bank
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         ports:
-          - 5432:5432
+          - "${{ secrets.HOST_PORT }}:${{ secrets.CONTAINER_PORT }}"
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -31,7 +31,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.22.2'
+          go-version: ${{ secrets.GO_VERSION }}
 
       - name: Install Golang Migration Tool
         run: |
